@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "703923290754",
+    "firebase_url": "https://edunova-465aa-default-rtdb.firebaseio.com",
+    "project_id": "edunova-465aa",
+    "storage_bucket": "edunova-465aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703923290754:android:deb9da2423cd7417a16a9b",
+        "android_client_info": {
+          "package_name": "com.asadsheikh.edunova"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703923290754-choeahv1b9lhq8fgrau0reskijsbsn85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7KjaELHEiiDompvbflq0Ndv0rxhTxpCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703923290754-choeahv1b9lhq8fgrau0reskijsbsn85.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "703923290754-luutgsgp07pojbtv6l1hjifr4vu8alkb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.asadsheikh.edunova"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
