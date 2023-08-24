@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:edu_nova/constants/repository.dart';
@@ -13,6 +14,7 @@ import 'package:edu_nova/constants/component.dart';
 import 'package:edu_nova/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class CourseDetailScreen extends StatefulWidget {
   const CourseDetailScreen({Key? key}) : super(key: key);
@@ -38,6 +40,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
   Map<dynamic, dynamic>? subscribers;
   Map<dynamic, dynamic>? transactions;
   TextEditingController callIdController = TextEditingController();
+  Map<dynamic, dynamic>? devices;
+  String? token;
 
   @override
   void initState() {
@@ -458,25 +462,67 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                                             return const Center(child: CircularProgressIndicator.adaptive());
                                           }
 
-                                          return FilledButton(
-                                            onPressed: () {
-                                              if (isSubscribed == true && subscribeId != null) {
-                                                Repository.deleteSubscribeCourse(
-                                                  date: subscribeId!,
-                                                  context: context,
-                                                );
-                                                subscribeId = null;
-                                                isSubscribed = false;
-                                              } else {
-                                                Repository.addSubscribeCourse(
-                                                  date: DateTime.now().millisecondsSinceEpoch.toString(),
-                                                  to: course['email'],
-                                                  context: context,
-                                                );
-                                              }
-                                            },
-                                            child: Text(isSubscribed == false ? AppLocalizations.of(context)!.subscribe : AppLocalizations.of(context)!.unsubscribe),
-                                          );
+                                          return StreamBuilder(
+                                              stream: Repository.databaseDevice.onValue,
+                                              builder: (BuildContext context, AsyncSnapshot<DatabaseEvent> dSnapshot) {
+                                                if (dSnapshot.hasData) {
+                                                  return FilledButton(
+                                                    onPressed: () async {
+                                                      if (isSubscribed == true && subscribeId != null) {
+                                                        Repository.deleteSubscribeCourse(
+                                                          date: subscribeId!,
+                                                          context: context,
+                                                        );
+                                                        subscribeId = null;
+                                                        isSubscribed = false;
+                                                      } else {
+                                                        Repository.addSubscribeCourse(
+                                                          date: DateTime.now().millisecondsSinceEpoch.toString(),
+                                                          to: course['email'],
+                                                          context: context,
+                                                        );
+
+                                                        var dataSnapshot = dSnapshot.data!.snapshot.value;
+                                                        devices = dataSnapshot as Map<dynamic, dynamic>?;
+
+                                                        if (devices != null) {
+                                                          devices!.forEach((key, value) {
+                                                            if (value['email'].toString() == course['email']) {
+                                                              token = value['token'];
+                                                            }
+                                                          });
+                                                        }
+                                                        var data = {
+                                                          'to': token,
+                                                          'priority': 'high',
+                                                          'notification': {'title': '${UserCacheData.userEmail}: EduNova', 'body': 'Yippey! There\'s a ubscriber', "sound": "jetsons_doorbell"},
+                                                          'android': {
+                                                            'notification': {
+                                                              'notification_count': 23,
+                                                            },
+                                                          },
+                                                          'data': {'type': 'msg', 'id': 'Asad Sheikh'}
+                                                        };
+
+                                                        await http.post(
+                                                          Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                                                          body: jsonEncode(data),
+                                                          headers: {
+                                                            'Content-Type': 'application/json; charset=UTF-8',
+                                                            'Authorization':
+                                                                'key=AAAAo-UZAoI:APA91bHoDIgoMqcgwKu17tpMn1U82-Gmf2OLwD2gktGgB-MIbF0UqSSBFswIMlPx2SYXlFTEzArAOU7nyxbBU9LrkaJBdqi-NuLaVXvPdJWhsCayRNctJnjIlfZS3da2jQmx2ZnEfgEn'
+                                                          },
+                                                        );
+
+                                                        token = '';
+                                                      }
+                                                    },
+                                                    child: Text(isSubscribed == false ? AppLocalizations.of(context)!.subscribe : AppLocalizations.of(context)!.unsubscribe),
+                                                  );
+                                                } else {
+                                                  return const CircularProgressIndicator.adaptive();
+                                                }
+                                              });
                                         },
                                       ),
                                     ),
