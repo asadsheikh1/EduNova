@@ -21,6 +21,7 @@ class Repository {
   static final databaseSubscribe = FirebaseDatabase.instance.ref('subscribe');
   static final databaseLike = FirebaseDatabase.instance.ref('like');
   static final databaseComment = FirebaseDatabase.instance.ref('comment');
+  static final databaseChat = FirebaseDatabase.instance.ref('chat');
   static final databaseTransaction = FirebaseDatabase.instance.ref('transaction');
   static final databaseDevice = FirebaseDatabase.instance.ref('device');
 
@@ -301,6 +302,26 @@ class Repository {
     }).onError((error, stackTrace) {
       flutterToast(AppLocalizations.of(context)!.sorryAnErrorOccurred);
     });
+  }
+
+  static addMessage({
+    required BuildContext context,
+    required String to,
+    required String date,
+    required String message,
+  }) {
+    databaseChat
+        .child(date)
+        .set({
+          'chatId': date,
+          'from': UserCacheData.userEmail,
+          'to': to,
+          'message': message,
+        })
+        .then((value) {})
+        .onError((error, stackTrace) {
+          flutterToast(AppLocalizations.of(context)!.sorryAnErrorOccurred);
+        });
   }
 
   static addSubscribeCourse({

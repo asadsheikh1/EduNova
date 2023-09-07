@@ -31,10 +31,15 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': AppLocalizations.of(context)!.home,
         'icon': Icons.home_outlined,
       },
+      // {
+      //   'page': const ChatScreen(),
+      //   'title': 'Chat',
+      //   'icon': Icons.chat_outlined,
+      // },
       {
         'page': const SubscriptionsScreen(),
         'title': AppLocalizations.of(context)!.subscriptions,
-        'icon': Icons.library_books_outlined,
+        'icon': Icons.favorite_outline,
       },
       {
         'page': const ProfileScreen(),
@@ -68,6 +73,10 @@ class _TabsScreenState extends State<TabsScreen> {
               icon: pages[2]['icon'],
               text: pages[_selectedPageIndex]['title'],
             ),
+            // GButton(
+            //   icon: pages[3]['icon'],
+            //   text: pages[_selectedPageIndex]['title'],
+            // ),
           ],
         ),
       ),
