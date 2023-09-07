@@ -1,3 +1,4 @@
+import 'package:edu_nova/screens/chat_screen.dart';
 import 'package:edu_nova/screens/checkout_screen.dart';
 import 'package:edu_nova/screens/course_detail_screen.dart';
 import 'package:edu_nova/screens/create_course_screen.dart';
@@ -16,6 +17,7 @@ import 'package:edu_nova/screens/subscribers_screen.dart';
 import 'package:edu_nova/screens/success_screen.dart';
 import 'package:edu_nova/screens/tabs_screen.dart';
 import 'package:edu_nova/screens/user_channel_screen.dart';
+import 'package:edu_nova/screens/user_chat_screen.dart';
 import 'package:edu_nova/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:edu_nova/screens/home_screen.dart';
@@ -32,6 +34,7 @@ class PageRoutes {
       SignUpOneScreen.routeName: (context) => const SignUpOneScreen(),
       TabsScreen.routeName: (context) => const TabsScreen(),
       HomeScreen.routeName: (context) => const HomeScreen(),
+      ChatScreen.routeName: (context) => const ChatScreen(),
       SubscriptionsScreen.routeName: (context) => const SubscriptionsScreen(),
       ProfileScreen.routeName: (context) => const ProfileScreen(),
       ImageScreen.routeName: (context) => const ImageScreen(),
@@ -40,6 +43,7 @@ class PageRoutes {
       MyCourseScreen.routeName: (context) => const MyCourseScreen(),
       SubscribersScreen.routeName: (context) => const SubscribersScreen(),
       LikesScreen.routeName: (context) => const LikesScreen(),
+      UserChatScreen.routeName: (context) => const UserChatScreen(),
       UserChannelScreen.routeName: (context) => const UserChannelScreen(),
       SettingsScreen.routeName: (context) => const SettingsScreen(),
       EditProfileScreen.routeName: (context) => const EditProfileScreen(),
